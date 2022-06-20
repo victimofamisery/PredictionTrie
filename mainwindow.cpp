@@ -29,10 +29,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_lineEdit_textEdited(const QString &arg1)
 {
+    QString lastWord = arg1.split(" ").last();
+
     QStringList complete;
-    auto vectorMatch = words->findBestMatches(arg1.toStdString(), 5);
+    auto vectorMatch = words->findBestMatches(lastWord.toStdString(), 5);
     for (auto word : vectorMatch) {
-        complete << QString::fromStdString(word);
+        complete << arg1.left(arg1.length() - lastWord.length())  + QString::fromStdString(word);
     }
     QCompleter* completer = new QCompleter(complete);
     ui->lineEdit->setCompleter(completer);
