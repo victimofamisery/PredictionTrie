@@ -25,7 +25,7 @@ class PredictionTrie
     };
 
     PredictionTrieNode* _root;
-
+    PredictionTrieNode* find(const std::string& word);
     const PredictionTrieNode* find(const std::string& word) const;
 
     void collectAllWordsStartedWith(

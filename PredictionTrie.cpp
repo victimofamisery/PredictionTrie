@@ -49,32 +49,50 @@ void PredictionTrie::remove(const std::string& word)
     if(!found) {
         return;
     }
-    auto search = _root;
-    std::pair<PredictionTrieNode*, std::string> last = {_root, word};
-    auto deleteWord = word;
-    for (auto letter : word) {
-        if (search->type == PredictionTrieNode::Type::Leaf && search != found) {
-            last.first = search;
-            last.second = deleteWord;
-        }
-        deleteWord.erase(0, 1);
-        search = search->children.find(letter)->second;
-    }
-    if (!search->children.empty()) {
-        search->type = PredictionTrieNode::Type::Regular;
-        search->count = 0u;
+    if (!found->children.empty()) {
+        found->type = PredictionTrieNode::Type::Regular;
+        found->count = 0u;
     }
     else {
+        auto search = _root;
+        std::pair<PredictionTrieNode*, std::string> last = {_root, word};
+        auto deleteWord = word;
+        for (auto letter : word) {
+            if (search->type == PredictionTrieNode::Type::Leaf && search != found) {
+                last.first = search;
+                last.second = deleteWord;
+            }
+            deleteWord.erase(0, 1);
+            search = search->children.find(letter)->second;
+        }
         while (last.first != found) {
-        auto link = last.first->children.find(deleteWord[0])->second;
-        last.second.erase(0, 1);
-        delete last.first;
-        last.first = link;
+            auto link = last.first->children.find(deleteWord[0])->second;
+            last.second.erase(0, 1);
+            delete last.first;
+            last.first = link;
         }
     }
 }
 
 const PredictionTrie::PredictionTrieNode* PredictionTrie::find(const std::string& word) const
+{
+    auto* current = _root;
+    for (auto letter : word)
+    {
+        auto foundIt = current->children.find(letter);
+
+        if (foundIt == current->children.end())
+        {
+            return nullptr;
+        }
+
+        current = foundIt->second;
+    }
+
+    return current;
+}
+
+PredictionTrie::PredictionTrieNode* PredictionTrie::find(const std::string& word)
 {
     auto* current = _root;
     for (auto letter : word)
