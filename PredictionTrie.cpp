@@ -55,15 +55,15 @@ void PredictionTrie::remove(const std::string& word)
     }
     else {
         auto search = _root;
-        std::pair<PredictionTrieNode*, char> last = {_root, word[0]};
+        std::pair<PredictionTrieNode*, char> lastLeaf = {_root, word[0]};
         for (auto letter : word) {
             if (search->type == PredictionTrieNode::Type::Leaf && search != found) {
-                last.first = search;
-                last.second = letter;
+                lastLeaf.first = search;
+                lastLeaf.second = letter;
             }
             search = search->children.find(letter)->second;
         }
-        delete last.first->children.find(last.second)->second;
+        delete lastLeaf.first->children.find(lastLeaf.second)->second;
     }
 }
 
