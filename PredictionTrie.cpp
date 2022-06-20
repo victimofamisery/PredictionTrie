@@ -63,6 +63,7 @@ void PredictionTrie::remove(const std::string& word)
     }
     if (!search->children.empty()) {
         search->type = PredictionTrieNode::Type::Regular;
+        search->count = 0u;
     }
     else {
         while (last.first != found) {
