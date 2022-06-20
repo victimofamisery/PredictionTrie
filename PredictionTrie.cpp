@@ -52,8 +52,7 @@ void PredictionTrie::remove(const std::string& word)
     auto search = _root;
     std::pair<PredictionTrieNode*, std::string> last = {_root, word};
     auto deleteWord = word;
-    for (auto letter : word)
-    {
+    for (auto letter : word) {
         if (search->type == PredictionTrieNode::Type::Leaf && search != found) {
             last.first = search;
             last.second = deleteWord;
