@@ -66,7 +66,7 @@ void PredictionTrie::remove(const std::string& word)
             search = search->children.find(letter)->second;
         }
         while (last.first != found) {
-            auto link = last.first->children.find(deleteWord[0])->second;
+            auto link = last.first->children.find(last.second[0])->second;
             last.second.erase(0, 1);
             delete last.first;
             last.first = link;
