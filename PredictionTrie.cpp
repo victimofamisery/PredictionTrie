@@ -46,7 +46,7 @@ void PredictionTrie::insert(const std::string& word)
 void PredictionTrie::remove(const std::string& word)
 {
     auto found = find(word);
-    if (found && found->type == PredictionTrieNode::Type::Leaf) {
+    if(!found) {
         return;
     }
     auto search = _root;
