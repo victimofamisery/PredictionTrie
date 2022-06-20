@@ -15,9 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
         std::stringstream lineStream(line);
         std::string tmpString;
         while (getline(lineStream, tmpString, ' ')) {
-            if (!words->isPresented(tmpString)) {
                 words->insert(tmpString);
-            }
         }
     }
     ui->setupUi(this);
